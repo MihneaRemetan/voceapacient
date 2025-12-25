@@ -14,7 +14,7 @@ import CreatePost from './pages/CreatePost';
 import AdminDashboard from './pages/AdminDashboard';
 import EditPost from './pages/EditPost';
 import About from './pages/About';
-import Contact from './pages/Contact';   // ✅ ADĂUGAT
+import Contact from './pages/Contact';   
 import ImplicaTe from './pages/ImplicaTe';
 
 import './styles/global.css';

@@ -4,15 +4,19 @@ import jwt from 'jsonwebtoken';
 import pool from '../config/database';
 
 /* =========================
-   JWT CONFIG (ONE TIME)
+   JWT CONFIG
 ========================= */
 
-if (!process.env.JWT_SECRET) {
+const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || '7d') as jwt.SignOptions['expiresIn'];
+
+if (!JWT_SECRET) {
   throw new Error('JWT_SECRET is missing in environment variables');
 }
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+const signOptions: jwt.SignOptions = {
+  expiresIn: JWT_EXPIRES_IN
+};
 
 /* =========================
    REGISTER
@@ -28,7 +32,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     }
 
     if (password.length < 6) {
-      res.status(400).json({ error: 'Parola trebuie să aibă minimum 6 caractere.' });
+      res.status(400).json({
+        error: 'Parola trebuie să aibă minimum 6 caractere.'
+      });
       return;
     }
 
@@ -45,20 +51,34 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     const result = await pool.query(
-      `INSERT INTO users (email, password_hash, name, county, show_real_name, is_admin)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id, email, name, county, show_real_name, is_admin, created_at`,
-      [email.toLowerCase(), passwordHash, name || null, county || null, false, false]
+      `
+      INSERT INTO users
+        (email, password_hash, name, county, show_real_name, is_admin)
+      VALUES
+        ($1, $2, $3, $4, $5, $6)
+      RETURNING
+        id, email, name, county, show_real_name, is_admin, created_at
+      `,
+      [
+        email.toLowerCase(),
+        passwordHash,
+        name || null,
+        county || null,
+        false,
+        false
+      ]
     );
 
     const user = result.rows[0];
 
-    const isAdmin = user.is_admin;
-
     const token = jwt.sign(
-      { userId: user.id, email: user.email, isAdmin },
+      {
+        userId: user.id,
+        email: user.email,
+        isAdmin: user.is_admin
+      },
       JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
+      signOptions
     );
 
     res.json({
@@ -70,12 +90,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         name: user.name,
         county: user.county,
         showRealName: user.show_real_name,
-        isAdmin: isAdmin,
+        isAdmin: user.is_admin,
         createdAt: user.created_at
       }
     });
-
-
   } catch (error) {
     console.error('Register error:', error);
     res.status(500).json({ error: 'Eroare la crearea contului.' });
@@ -115,9 +133,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign(
-      { userId: user.id, email: user.email, isAdmin: user.is_admin },
+      {
+        userId: user.id,
+        email: user.email,
+        isAdmin: user.is_admin
+      },
       JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
+      signOptions
     );
 
     res.json({
@@ -143,17 +165,24 @@ export const login = async (req: Request, res: Response): Promise<void> => {
    CHANGE PASSWORD
 ========================= */
 
-export const changePassword = async (req: Request, res: Response): Promise<void> => {
+export const changePassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
-      res.status(400).json({ error: 'Parola curentă și cea nouă sunt obligatorii.' });
+      res.status(400).json({
+        error: 'Parola curentă și cea nouă sunt obligatorii.'
+      });
       return;
     }
 
     if (newPassword.length < 6) {
-      res.status(400).json({ error: 'Parola nouă trebuie să aibă minimum 6 caractere.' });
+      res.status(400).json({
+        error: 'Parola nouă trebuie să aibă minimum 6 caractere.'
+      });
       return;
     }
 
@@ -169,7 +198,10 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
 
     const user = result.rows[0];
 
-    const isValid = await bcrypt.compare(currentPassword, user.password_hash);
+    const isValid = await bcrypt.compare(
+      currentPassword,
+      user.password_hash
+    );
 
     if (!isValid) {
       res.status(401).json({ error: 'Parola curentă este incorectă.' });
@@ -184,7 +216,6 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
     );
 
     res.json({ message: 'Parola a fost schimbată cu succes.' });
-
   } catch (error) {
     console.error('Change password error:', error);
     res.status(500).json({ error: 'Eroare la schimbarea parolei.' });
@@ -195,10 +226,18 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
    GET CURRENT USER
 ========================= */
 
-export const getCurrentUser = async (req: Request, res: Response): Promise<void> => {
+export const getCurrentUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const result = await pool.query(
-      'SELECT id, email, name, county, show_real_name, is_admin, created_at FROM users WHERE id = $1',
+      `
+      SELECT
+        id, email, name, county, show_real_name, is_admin, created_at
+      FROM users
+      WHERE id = $1
+      `,
       [req.userId]
     );
 
@@ -218,9 +257,10 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
       isAdmin: user.is_admin,
       createdAt: user.created_at
     });
-
   } catch (error) {
     console.error('Get current user error:', error);
-    res.status(500).json({ error: 'Eroare la obținerea datelor utilizatorului.' });
+    res.status(500).json({
+      error: 'Eroare la obținerea datelor utilizatorului.'
+    });
   }
 };

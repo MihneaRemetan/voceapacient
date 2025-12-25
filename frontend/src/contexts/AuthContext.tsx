@@ -62,7 +62,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser(response.data);
     } catch (error) {
       console.error('checkAuth failed', error);
-      // NU ștergem tokenul aici (evităm logout accidental)
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -73,15 +75,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   ========================= */
 
   const login = async (email: string, password: string) => {
+    // 1️⃣ login → primim DOAR token
     const response = await authApi.login({ email, password });
+    const { token } = response.data;
 
-    // 🔴 LINIA CARE CONTEAZĂ
-    const { token, user } = response.data;
-
+    // 2️⃣ salvăm token
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
 
-    setUser(user);
+    // 3️⃣ luăm user-ul real din /me
+    const meResponse = await authApi.getCurrentUser();
+
+    setUser(meResponse.data);
+    localStorage.setItem('user', JSON.stringify(meResponse.data));
   };
 
   /* =========================
@@ -94,6 +99,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     name?: string,
     county?: string
   ) => {
+    // 1️⃣ register → primim DOAR token
     const response = await authApi.register({
       email,
       password,
@@ -101,12 +107,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       county,
     });
 
-    const { token, user } = response.data;
+    const { token } = response.data;
 
+    // 2️⃣ salvăm token
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
 
-    setUser(user);
+    // 3️⃣ luăm user-ul real din /me
+    const meResponse = await authApi.getCurrentUser();
+
+    setUser(meResponse.data);
+    localStorage.setItem('user', JSON.stringify(meResponse.data));
   };
 
   /* =========================

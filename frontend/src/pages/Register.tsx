@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Auth.css';
 
 const Register: React.FC = () => {
+    const { register, user, loading } = useAuth();
     const navigate = useNavigate();
-    const { register } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
     const [county, setCounty] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
+
+    // 🔒 RENDER GUARD
+    if (!loading && user) {
+        return <Navigate to="/posts" replace />;
+    }
 
     const romanianCounties = [
         'Alba', 'Arad', 'Argeș', 'Bacău', 'Bihor', 'Bistrița-Năsăud', 'Botoșani',
@@ -38,7 +43,7 @@ const Register: React.FC = () => {
             return;
         }
 
-        setLoading(true);
+        setSubmitting(true);
 
         try {
             await register(email, password, name || undefined, county || undefined);
@@ -46,7 +51,7 @@ const Register: React.FC = () => {
         } catch (err: any) {
             setError(err.response?.data?.error || 'Eroare la înregistrare.');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
@@ -63,73 +68,48 @@ const Register: React.FC = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="email" className="form-label">
-                                Email *
-                            </label>
+                            <label>Email *</label>
                             <input
-                                id="email"
                                 type="email"
-                                className="form-input"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                autoComplete="email"
                             />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="password" className="form-label">
-                                Parolă *
-                            </label>
+                            <label>Parolă *</label>
                             <input
-                                id="password"
                                 type="password"
-                                className="form-input"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 minLength={6}
-                                autoComplete="new-password"
                             />
-                            <p className="form-help">Minim 6 caractere</p>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="confirmPassword" className="form-label">
-                                Confirmă parola *
-                            </label>
+                            <label>Confirmă parola *</label>
                             <input
-                                id="confirmPassword"
                                 type="password"
-                                className="form-input"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
-                                autoComplete="new-password"
                             />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="name" className="form-label">
-                                Nume (opțional)
-                            </label>
+                            <label>Nume (opțional)</label>
                             <input
-                                id="name"
                                 type="text"
-                                className="form-input"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                autoComplete="name"
                             />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="county" className="form-label">
-                                Județ (opțional)
-                            </label>
+                            <label>Județ (opțional)</label>
                             <select
-                                id="county"
-                                className="form-select"
                                 value={county}
                                 onChange={(e) => setCounty(e.target.value)}
                             >
@@ -142,20 +122,13 @@ const Register: React.FC = () => {
                             </select>
                         </div>
 
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-full"
-                            disabled={loading}
-                        >
-                            {loading ? 'Se înregistrează...' : 'Înregistrează-te'}
+                        <button type="submit" disabled={submitting}>
+                            {submitting ? 'Se înregistrează...' : 'Înregistrează-te'}
                         </button>
                     </form>
 
                     <p className="auth-footer">
-                        Ai deja cont?{' '}
-                        <Link to="/login" className="auth-link">
-                            Autentifică-te
-                        </Link>
+                        Ai deja cont? <Link to="/login">Autentifică-te</Link>
                     </p>
                 </div>
             </div>
