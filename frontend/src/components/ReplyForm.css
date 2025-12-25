@@ -1,0 +1,32 @@
+.reply-form {
+    background-color: var(--bg-tertiary);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    margin-top: 2rem;
+}
+
+.reply-form-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.reply-form-login {
+    background-color: var(--primary-light);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.reply-form-login p {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}

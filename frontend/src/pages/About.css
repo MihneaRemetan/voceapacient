@@ -1,0 +1,106 @@
+.about-page {
+    flex: 1;
+}
+
+/* Hero Section */
+.about-hero {
+    background-color: #ffffff;
+    color: white;
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.about-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* Mission Section */
+.about-section {
+    padding: 5rem 1rem;
+    background-color: #3F8FAE;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.section-content {
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #ffffff;;
+    text-align: center;
+}
+
+/* Objectives Section */
+.objectives-section {
+    padding: 5rem 1rem;
+    background-color: #f8fafc;
+}
+
+.objectives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.objective-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.objective-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.objective-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.objective-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.objective-card p {
+    color: #64748b;
+    font-size: 1.125rem;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-content {
+        font-size: 1.125rem;
+    }
+
+    .objectives-grid {
+        grid-template-columns: 1fr;
+    }
+}

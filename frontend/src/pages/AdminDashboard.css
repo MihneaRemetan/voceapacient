@@ -1,0 +1,152 @@
+.admin-page {
+    padding: 3rem 1rem;
+    min-height: calc(100vh - 80px);
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.admin-title {
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.admin-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+.admin-posts {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-count {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.admin-post-card {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.admin-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-post-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.admin-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.meta-badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.meta-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.admin-post-body {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+}
+
+.admin-post-date,
+.admin-post-attachments {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.admin-post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.admin-post-submitted {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.admin-post-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .admin-page {
+        padding: 2rem 1rem;
+    }
+
+    .admin-header {
+        margin-bottom: 2rem;
+    }
+
+    .admin-title {
+        font-size: 1.75rem;
+    }
+
+    .admin-subtitle {
+        font-size: 1rem;
+    }
+
+    .admin-post-card {
+        padding: 1.25rem;
+    }
+
+    .admin-post-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .admin-post-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .admin-post-actions {
+        width: 100%;
+    }
+
+    .admin-post-actions button {
+        flex: 1;
+    }
+}
