@@ -63,7 +63,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email.toLowerCase(),
         passwordHash,
         name || null,
-        county || null,
+        county || 'Nespecificat', // 🔧 FIX IMPORTANT
         false,
         false
       ]
@@ -82,7 +82,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     );
 
     res.json({
-      message: 'Autentificare reușită.',
+      message: 'Înregistrare reușită.',
       token,
       user: {
         id: user.id,
@@ -165,10 +165,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
    CHANGE PASSWORD
 ========================= */
 
-export const changePassword = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const changePassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -226,10 +223,7 @@ export const changePassword = async (
    GET CURRENT USER
 ========================= */
 
-export const getCurrentUser = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getCurrentUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const result = await pool.query(
       `
