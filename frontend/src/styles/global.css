@@ -92,7 +92,7 @@ h5,
 h6 {
   line-height: 1.2;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #E8F4F8;
   margin-bottom: 0.75rem;
   letter-spacing: -0.025em;
 }
