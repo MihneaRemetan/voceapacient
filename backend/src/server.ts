@@ -159,8 +159,11 @@ app.use((req: Request, res: Response) => {
     res.status(404).json({ error: 'Ruta nu a fost găsită.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// For Vercel serverless
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 export default app;
