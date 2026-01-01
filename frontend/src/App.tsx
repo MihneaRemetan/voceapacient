@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 import Header from './components/Header';
+import InstallPWA from './components/InstallPWA';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -54,6 +55,7 @@ const AppRoutes: React.FC = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Header />
+            <InstallPWA />
 
             <main style={{ flex: 1 }}>
                 <Routes>
