@@ -46,6 +46,10 @@
     background-color: #f8fafc;
 }
 
+.objectives-section .section-title {
+    color: #0f172a !important;
+}
+
 .objectives-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

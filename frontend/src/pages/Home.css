@@ -139,7 +139,11 @@
 .latest-posts-section {
     padding: 6rem 1rem;
     background-color: #f8fafc;
-    color: #0f172a; 
+    color: #0f172a;
+}
+
+.latest-posts-section .section-title {
+    color: #0f172a !important;
 }
 
 .section-header {
@@ -154,6 +158,7 @@
 .section-header .section-title {
     margin-bottom: 0;
     text-align: left;
+    color: #0f172a !important;
 }
 
 .latest-posts-grid {

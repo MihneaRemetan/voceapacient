@@ -71,20 +71,8 @@ body {
   line-height: 1.6;
   min-height: 100vh;
 
-  /* Base clean medical background */
-  background:
-    linear-gradient(
-      180deg,
-      #f8fcff 0%,
-      #eef6fb 50%,
-      #f8fcff 100%
-    ),
-
-    /* Soft abstract accents */
-    radial-gradient(at 0% 0%, hsla(189, 100%, 96%, 0.8) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(205, 100%, 96%, 0.8) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(189, 100%, 96%, 0.8) 0, transparent 50%);
-
+  /* Clean gradient background */
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   background-attachment: fixed;
   color: var(--text-primary);
 }
