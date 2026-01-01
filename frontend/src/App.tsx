@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 import Header from './components/Header';
-import InstallPWA from './components/InstallPWA';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -17,6 +16,7 @@ import EditPost from './pages/EditPost';
 import About from './pages/About';
 import Contact from './pages/Contact';   
 import ImplicaTe from './pages/ImplicaTe';
+import InstallApp from './pages/InstallApp';
 
 import './styles/global.css';
 
@@ -55,7 +55,6 @@ const AppRoutes: React.FC = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Header />
-            <InstallPWA />
 
             <main style={{ flex: 1 }}>
                 <Routes>
@@ -63,6 +62,7 @@ const AppRoutes: React.FC = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} /> {/* ✅ FUNCȚIONAL */}
                     <Route path="/implica-te" element={<ImplicaTe />} />
+                    <Route path="/install-app" element={<InstallApp />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/posts" element={<Posts />} />

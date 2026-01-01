@@ -65,6 +65,10 @@ const Header: React.FC = () => {
                             <Link to="/register" className="btn btn-outline btn-sm">
                                 Înregistrare
                             </Link>
+
+                            <Link to="/install-app" className="btn btn-success btn-sm">
+                                📱 Deschide în aplicație
+                            </Link>
                         </>
                     )}
                 </nav>
