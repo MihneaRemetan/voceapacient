@@ -98,7 +98,10 @@ async function seedDatabase() {
         await pool.query(
             `INSERT INTO users (email, password_hash, name, county, show_real_name, is_admin)
        VALUES ($1, $2, $3, $4, $5, $6)
-       ON CONFLICT (email) DO NOTHING`,
+       ON CONFLICT (email) DO UPDATE 
+       SET password_hash = EXCLUDED.password_hash, 
+           name = EXCLUDED.name,
+           is_admin = EXCLUDED.is_admin`,
             ['mihnearemetan@gmail.com', adminPassword, 'Mihnea Remetan', 'Arad', true, true]
         );
 
