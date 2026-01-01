@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
+import pool from './config/database';
 
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
@@ -13,6 +15,25 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Run migrations on startup
+async function runMigrations() {
+    try {
+        console.log('🔄 Running database migrations...');
+        const migrationPath = path.join(__dirname, 'migrations/001_init.sql');
+        const sql = fs.readFileSync(migrationPath, 'utf-8');
+        await pool.query(sql);
+        console.log('✅ Migrations completed successfully');
+    } catch (error: any) {
+        if (error.message?.includes('already exists')) {
+            console.log('ℹ️ Tables already exist, skipping migrations');
+        } else {
+            console.error('❌ Migration failed:', error);
+        }
+    }
+}
+
+runMigrations();
 
 // Middleware
 app.use(cors({
