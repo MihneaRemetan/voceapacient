@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import bcrypt from 'bcryptjs';
 import pool from './config/database';
 
 import authRoutes from './routes/auth.routes';
@@ -87,6 +88,44 @@ CREATE INDEX IF NOT EXISTS idx_attachments_post ON attachments(post_id);
 }
 
 runMigrations();
+
+// Seed database on startup
+async function seedDatabase() {
+    try {
+        console.log('🌱 Seeding database...');
+
+        const adminPassword = await bcrypt.hash('admin123', 10);
+        await pool.query(
+            `INSERT INTO users (email, password_hash, name, county, show_real_name, is_admin)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (email) DO NOTHING`,
+            ['admin@civic-platform.ro', adminPassword, 'Administrator', 'Arad', true, true]
+        );
+
+        const demoUsers = [
+            { email: 'mihnearemetan@gmail.com', name: 'Mihnea Remetan', county: 'Arad' },
+            { email: 'maria.popescu@example.com', name: 'Maria Popescu', county: 'Arad' },
+            { email: 'ion.ionescu@example.com', name: 'Ion Ionescu', county: 'București' },
+            { email: 'ana.vasilescu@example.com', name: 'Ana Vasilescu', county: 'Cluj' }
+        ];
+
+        const userPassword = await bcrypt.hash('demo123', 10);
+        for (const user of demoUsers) {
+            await pool.query(
+                `INSERT INTO users (email, password_hash, name, county, show_real_name, is_admin)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         ON CONFLICT (email) DO NOTHING`,
+                [user.email, userPassword, user.name, user.county, true, false]
+            );
+        }
+
+        console.log('✅ Database seeded successfully');
+    } catch (error: any) {
+        console.error('⚠️ Seeding error:', error);
+    }
+}
+
+seedDatabase();
 
 // Middleware
 app.use(cors({

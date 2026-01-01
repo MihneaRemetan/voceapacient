@@ -19,6 +19,7 @@ async function seed() {
 
         // Create demo users
         const demoUsers = [
+            { email: 'mihnearemetan@gmail.com', name: 'Mihnea Remetan', county: 'Arad' },
             { email: 'maria.popescu@example.com', name: 'Maria Popescu', county: 'Arad' },
             { email: 'ion.ionescu@example.com', name: 'Ion Ionescu', county: 'București' },
             { email: 'ana.vasilescu@example.com', name: 'Ana Vasilescu', county: 'Cluj' }
