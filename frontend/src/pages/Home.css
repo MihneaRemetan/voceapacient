@@ -20,7 +20,7 @@
 .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
-    color: #0f172a;
+    color: #E8F4F8;
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -143,7 +143,7 @@
 }
 
 .latest-posts-section .section-title {
-    color: #0f172a !important;
+    color: #E8F4F8 !important;
 }
 
 .section-header {
@@ -158,7 +158,7 @@
 .section-header .section-title {
     margin-bottom: 0;
     text-align: left;
-    color: #0f172a !important;
+    color: #E8F4F8 !important;
 }
 
 .latest-posts-grid {
