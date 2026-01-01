@@ -20,7 +20,8 @@ const PORT = process.env.PORT || 3000;
 async function runMigrations() {
     try {
         console.log('🔄 Running database migrations...');
-        const migrationPath = path.join(__dirname, 'migrations/001_init.sql');
+        // In production (dist/), go up to project root, then to src/migrations
+        const migrationPath = path.join(__dirname, '../../src/migrations/001_init.sql');
         const sql = fs.readFileSync(migrationPath, 'utf-8');
         await pool.query(sql);
         console.log('✅ Migrations completed successfully');
